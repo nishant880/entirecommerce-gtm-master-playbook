@@ -67,7 +67,7 @@ Third, **the weekly master manager**. One playbook sitting above the other thirt
 Before you start, make sure you have:
 
 - **Claude Code** installed. Download from [claude.com/claude-code](https://claude.com/claude-code). Verify with `claude --version`.
-- **A GitHub account**. The operating system uses git for version control of every playbook, every brief, and every weekly review. Sign up at [github.com](https://github.com) if you don't have one.
+- **A GitHub account**. The operating system uses git for version control of every playbook, every brief, and every weekly review. If you don't already have one, don't prep anything — the install prompt detects the gap during Step 3, walks you through account signup, installs the GitHub CLI, authenticates you, creates the private repo for your brand, and pushes the initial commit. All live in the session. Sign up at [github.com](https://github.com) yourself beforehand only if you prefer.
 - **pandoc** installed for Word-doc exports. On macOS: `brew install pandoc`. On Windows: [pandoc.org/installing.html](https://pandoc.org/installing.html).
 - **A project folder** on your machine. One per brand you run. Name it after the brand.
 

@@ -133,6 +133,30 @@ Create the following structure in the current working directory if it doesn't ex
 
 Run `git init` if the folder is not already a git repo. Write a starter `.gitignore` with `.env` and `data/credentials/` listed.
 
+### Connect the folder to a GitHub remote
+
+Run `git remote -v`. If an `origin` is already configured and points to GitHub, skip this sub-step and continue.
+
+If no remote is configured, walk the user through setting one up. GitHub is load-bearing for the operating system — every playbook, brief, and weekly review lives there. Do not skip.
+
+1. **Check for an existing GitHub account.** Ask: *"Do you already have a GitHub account? (yes / no)"*
+
+2. **If `no`.** WebFetch the current GitHub signup page and walk the user through creating an account. Ask them to confirm their GitHub username once the account is active. Do not invent the signup URL or steps from memory — pull fresh from the web.
+
+3. **Authenticate locally via the GitHub CLI.** Check whether `gh` is installed (`gh --version`). If not installed, WebFetch the current `gh` install instructions for the user's OS (macOS: `brew install gh`; Windows: winget or installer; Linux: apt/yum) and walk them through installation. Then run `gh auth status`. If not authenticated, walk them through `gh auth login` (select GitHub.com, HTTPS, authenticate via web browser). Confirm `gh auth status` reports a logged-in user before proceeding.
+
+4. **Create the remote repo and push the initial commit.** Run:
+   ```
+   git add .
+   git commit -m "Initial commit: AI GTM Master Playbook install"
+   gh repo create {brand-folder} --private --source=. --push
+   ```
+   Replace `{brand-folder}` with the current directory name. Confirm the repo exists at `github.com/{username}/{brand-folder}` and the initial commit landed.
+
+5. **Fallback: no `gh` CLI available.** If the user can't or won't install `gh`, WebFetch current instructions for (a) creating a new repo via the GitHub web UI, (b) generating a Personal Access Token with `repo` scope, (c) adding the remote via `git remote add origin`, and (d) pushing with `git push -u origin main`. Walk them through each step and verify the push succeeds.
+
+Confirm `git remote -v` now shows `origin` pointing to GitHub before proceeding to Step 4.
+
 Confirm each directory exists before proceeding to Step 4.
 
 ---
