@@ -65,36 +65,37 @@ Do not invent any value. Ask the user.
 
 ## Step 2. Tool-availability inventory plus on-demand sign-up walkthroughs
 
-Read the `.env` file in the current working directory (create an empty one if missing). Print a credential inventory to the user in this format:
+Read the `.env` file in the current working directory (create an empty one if missing). Also read CLAUDE.md § Tool Inventory to pick up the brand's declared choice for each variable function (commerce platform, email / lifecycle, CRM, reviews, on-site behaviour, SMS, helpdesk, automation glue). Print a credential inventory to the user in this format:
 
 ```
-Core execution
+Universal tools (every DTC brand needs these)
 - Claude Code: verified via session
 - GitHub: configured / not configured (local git + auth token)
-
-Analytics + search
 - Google Analytics 4: configured / not configured
 - Google Search Console: configured / not configured
+- Google Ads: configured / not configured
+- Google Merchant Center: configured / not configured
+- Meta Ads: configured / not configured
 - Google Cloud API key (PageSpeed, Gemini): configured / not configured
 
-Ad platforms
-- Meta Ads: configured / not configured
-- Google Ads: configured / not configured
+Your stack (populated from CLAUDE.md § Tool Inventory)
+- Commerce / CMS → {tool}: configured / not configured
+- Email / lifecycle → {tool}: configured / not configured
+- CRM → {tool | none}: configured / not configured / N/A
+- Reviews → {tool | none}: configured / not configured / N/A
+- On-site behaviour → {tool | none}: configured / not configured / N/A
+- SMS → {tool | none}: configured / not configured / N/A
+- Helpdesk → {tool | none}: configured / not configured / N/A
+- Automation / glue → {tool | none}: configured / not configured / N/A
 
-Ecommerce + email
-- Shopify Admin: configured / not configured
-- Klaviyo: configured / not configured
-- Brevo: configured / not configured
-
-SEO + SERP
+SEO enrichment (optional but recommended)
 - DataForSEO: configured / not configured
 - Serper: configured / not configured
 - Keywords Everywhere: configured / not configured
 - Ahrefs: configured / not configured
-
-Behavioural
-- Microsoft Clarity: configured / not configured
 ```
+
+If any "Your stack" line has no tool declared in CLAUDE.md § Tool Inventory, stop and ask the user to fill it in (or mark `none`) before continuing. The Tool Inventory is how every sub-playbook knows which API to call — sub-playbooks won't install cleanly without it.
 
 ### Offer setup instructions for missing tools
 
@@ -257,11 +258,14 @@ The thirty-five sub-playbooks, grouped by function-area:
 
 For each sub-playbook Claude writes:
 - Scope the prompt to the brand (replace generic examples with the brand's product, category, customers)
-- Update tool references to match the brand's actual stack from CLAUDE.md
-- Write example copy in the brand's voice as captured in CLAUDE.md
-- Skip sub-playbooks that don't apply to the brand's model (e.g. skip `churn-prevention.md` for a one-time-purchase brand with no subscription layer)
+- Insert a **Tool adapter** block at the top listing which functions the playbook touches (e.g. `commerce_cms`, `email_lifecycle`, `reviews`). The block instructs future runs to: (1) resolve each function against CLAUDE.md § Tool Inventory, (2) flag any `none` tool as a capability gap rather than silently skipping, (3) WebFetch the vendor's current API and how-to docs for any tool the embedded instructions don't cover, (4) substitute tool-specific auth, endpoints, and UI paths into the Steps while keeping the GTM logic identical, (5) cite the docs URLs used at the bottom.
+- Update tool references in the Steps to match the brand's actual stack from the Tool Inventory, using WebFetch for current vendor docs where the tool isn't one Claude has embedded instructions for.
+- Write example copy in the brand's voice as captured in CLAUDE.md.
+- Skip sub-playbooks that don't apply to the brand's model (e.g. skip `churn-prevention.md` for a one-time-purchase brand with no subscription layer).
 
-Confirm the file count after install. Print a summary listing every playbook installed, every playbook skipped, and every playbook flagged for additional context.
+**Generate-on-demand fallback.** In Selective or Audit-only mode, not every sub-playbook gets written up front. Tell the user: any sub-playbook they ask for later that doesn't exist as a file will auto-generate on first request using the template + Tool adapter block + a live WebFetch against the relevant vendor docs, then save to `/playbooks/{name}.md` so the next run is instant.
+
+Confirm the file count after install. Print a summary listing every playbook installed, every playbook skipped, every playbook deferred for on-demand generation, and every playbook flagged for additional context.
 
 ---
 

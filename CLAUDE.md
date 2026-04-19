@@ -46,20 +46,31 @@
 - **Pricing tier vs category median**: {e.g. "priced 3x category median" or "premium of the category" or "value tier"}
 - **What has been tried and did not work**: {Previous positioning angles, channels, campaigns that missed}
 
-## Current tool stack
+## Tool Inventory
 
-List every tool you use for marketing and operations today. Claude detects which have API credentials wired in `.env` and offers sign-up walkthroughs for the rest during the install.
+Every sub-playbook reads this block to know which API to call for each function. Universal tools are assumed present — leave them unless genuinely unused. For each variable function, declare the tool you run (or `none` if the function isn't in play — Claude will flag the gap rather than silently skip). Where Claude doesn't already have embedded instructions for a tool, it WebFetches the vendor's current API docs on the fly.
 
-- **Website / CMS**: {Shopify, WordPress, Next.js, etc.}
-- **Analytics**: {GA4, Mixpanel, etc.}
-- **Search visibility**: {Google Search Console, Bing, etc.}
-- **Ad platforms**: {Google Ads, Meta Ads, TikTok, etc.}
-- **Shopping feed**: {Google Merchant Center, Bing Merchant}
-- **Email / SMS**: {Klaviyo, Brevo, ActiveCampaign, Postscript, etc.}
-- **CRO / session behaviour**: {Microsoft Clarity, Hotjar, FullStory}
-- **Tag management**: {GTM, Shopify Pixel Manager}
-- **CRM / back-office**: {Airtable, HubSpot, custom}
-- **AI assistants / prompts**: {Claude, ChatGPT, internal tools}
+### Universal (assumed — skip only if genuinely unused)
+
+- Google Analytics 4
+- Google Search Console
+- Google Ads
+- Google Merchant Center
+- Meta Ads Manager
+
+### Your stack
+
+- **Commerce / CMS**: {Shopify | WooCommerce | BigCommerce | Webflow | Magento | Squarespace | custom}
+- **Email / lifecycle**: {Klaviyo | Mailchimp | Brevo | HubSpot | ActiveCampaign | Omnisend | none}
+- **CRM**: {HubSpot | Salesforce | Attio | Airtable | Pipedrive | none}
+- **Reviews**: {Judge.me | Yotpo | Okendo | Stamped | Trustpilot | none}
+- **On-site behaviour**: {Microsoft Clarity | Hotjar | FullStory | none}
+- **SMS**: {Attentive | Postscript | Klaviyo SMS | none}
+- **Helpdesk**: {Gorgias | Zendesk | Intercom | Front | Help Scout | none}
+- **Automation / glue**: {Zapier | Make | n8n | Cloudflare Workers | none}
+- **Ad analytics / attribution**: {Triple Whale | Northbeam | none}
+- **Scheduling / social**: {Buffer | Later | Hootsuite | native | none}
+- **Tag management**: {GTM | Shopify Pixel Manager | none}
 
 ## Tools you'd like to add
 

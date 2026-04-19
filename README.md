@@ -108,9 +108,12 @@ Drop the four files from this bundle (README.md, CLAUDE.md, gtm-master-playbook.
 
 Create a `.env` file in the project folder. Add the API keys you have. Missing any is fine: when you run the master install prompt in Step 4, Claude prints which tools are configured and which are missing and offers to walk you through sign-up for each missing one.
 
-Recommended starter `.env`:
+The operating system splits tools into two buckets. **Universal** tools are the ones every DTC brand needs — the Google stack and Meta. **Your stack** tools vary by brand — you tell Claude which commerce platform, email tool, CRM, reviews app, etc. you run in the `CLAUDE.md` Tool Inventory, and every sub-playbook adapts its steps and API calls accordingly. Where Claude doesn't already know a given tool, it WebFetches the vendor's current docs on the fly and writes tool-specific instructions into the sub-playbook.
+
+Recommended starter `.env`. Keep the universal block as-is. Fill in the variables for the tools you actually run — comment out or delete lines for tools you don't use.
 
 ```
+# ── Universal ──
 # Analytics + search
 GA4_PROPERTY_ID=
 GSC_SITE_URL=
@@ -120,25 +123,38 @@ GOOGLE_APPLICATION_CREDENTIALS=
 META_ADS_ACCESS_TOKEN=
 META_AD_ACCOUNT_ID=
 GOOGLE_ADS_DEVELOPER_TOKEN=
+GOOGLE_MERCHANT_ID=
 
-# Ecommerce + email
+# Google Cloud API (PageSpeed, Gemini, etc.)
+GOOGLE_AI_KEY=
+
+# ── Your stack (fill in what applies, leave the rest empty) ──
+# Commerce / CMS — pick one
 SHOPIFY_ADMIN_API_TOKEN=
 SHOPIFY_STORE_DOMAIN=
-KLAVIYO_API_KEY=
-BREVO_API_KEY=
+WOOCOMMERCE_CONSUMER_KEY=
+WOOCOMMERCE_CONSUMER_SECRET=
+WOOCOMMERCE_SITE_URL=
+# (add BigCommerce, Webflow, Magento, Squarespace, etc. as needed)
 
-# SEO
+# Email / lifecycle — pick one
+KLAVIYO_API_KEY=
+MAILCHIMP_API_KEY=
+BREVO_API_KEY=
+HUBSPOT_API_KEY=
+ACTIVECAMPAIGN_API_KEY=
+OMNISEND_API_KEY=
+
+# On-site behaviour — pick one (optional)
+CLARITY_API_TOKEN=
+HOTJAR_API_KEY=
+
+# SEO enrichment (optional, recommended)
 DATAFORSEO_LOGIN=
 DATAFORSEO_PASSWORD=
 SERPER_API_KEY=
 KEYWORDS_EVERYWHERE_API_KEY=
 AHREFS_API_KEY=
-
-# Behavioural
-CLARITY_API_TOKEN=
-
-# Google Cloud API (PageSpeed, Gemini, etc.)
-GOOGLE_AI_KEY=
 ```
 
 **Gotcha I hit:** Never commit `.env` to GitHub. Add `.env` to `.gitignore` before your first commit. The install script writes a `.gitignore` for you if one doesn't exist.
@@ -245,7 +261,7 @@ Ten deliverables that together constitute your AI marketing operating system.
 4. **Pillars, briefs, drafts, and distribution at scale.** Twelve-month content strategy sub-playbook, content-gap analysis, blog-post publishing, repurposing across LinkedIn, X, Instagram, TikTok.
 5. **Outreach pipeline and journalist database in one.** Influencer and PR sub-playbooks with DocuSeal, Airtable, and Drive integrations. Outbound to influencers, journalists, and partnership leads from one system.
 6. **Page, funnel, and form audits on demand.** CRO sub-playbooks powered by Microsoft Clarity heatmaps and session recordings. A/B test setup and popup CRO included.
-7. **Lifecycle flows, segmentation, and deliverability.** Email and CRM sub-playbooks covering Klaviyo or Brevo. Welcome, abandoned cart, post-purchase, win-back, churn prevention.
+7. **Lifecycle flows, segmentation, and deliverability.** Email and CRM sub-playbooks that adapt to whichever ESP and CRM you run — Klaviyo, Mailchimp, Brevo, HubSpot, ActiveCampaign, Omnisend. Welcome, abandoned cart, post-purchase, win-back, churn prevention.
 8. **Hooks, scripts, ad variations, and UGC briefs.** Creative sub-playbook producing bulk ad variations, hook taxonomies, short-form video scripts, and UGC creator briefs in your founder voice.
 9. **Daily dashboard and tracking integrity audits.** Analytics and ops sub-playbooks covering GA4, Meta Pixel, GTM, attribution stitching, and a daily-refresh Google Sheet dashboard.
 10. **Weekly orchestration that decides what ships next.** The master manager. Reads every channel on Monday morning, kills what isn't working, reprioritises the week. The differentiator the other nine function-areas compound into.
